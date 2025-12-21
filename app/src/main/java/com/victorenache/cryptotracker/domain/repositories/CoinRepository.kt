@@ -1,7 +1,9 @@
 package com.victorenache.cryptotracker.domain.repositories
 
+import com.victorenache.cryptotracker.core.Resource
 import com.victorenache.cryptotracker.domain.model.Coin
+import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {
-    suspend fun getCoins(): Result<List<Coin>>
+    fun getCoins(): Flow<Resource<List<Coin>>>
 }
