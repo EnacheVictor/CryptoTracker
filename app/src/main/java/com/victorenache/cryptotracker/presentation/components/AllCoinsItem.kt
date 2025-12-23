@@ -2,6 +2,7 @@ package com.victorenache.cryptotracker.presentation.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,12 +29,9 @@ import com.victorenache.cryptotracker.ui.theme.BlackScreen
 fun AllCoinsItem(coin: Coin,
                  modifier: Modifier = Modifier) {
 
-    val isPositive = coin.percentChange24h >= 0
-    val trendColor = if (isPositive) Color(0xFF2AD232) else Color(0xFFFA1000)
-
-
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
+            .padding(horizontal = 12.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = BlackScreen),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -41,31 +39,34 @@ fun AllCoinsItem(coin: Coin,
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = coin.rank,
-                modifier = Modifier.width(30.dp),
+                text = "#${coin.rank}",
+                modifier = Modifier.width(40.dp)
+                    .padding(end = 6.dp),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray,
                 fontWeight = FontWeight.Bold
             )
-            Column(modifier = Modifier.weight(1f)) {
+            Column(modifier = Modifier.weight(1.2f)) {
                 Text(text = coin.name,
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis)
                 Text(
-                    text = coin.symbol,
+                    text = "$${coin.symbol}",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray
                 )
             }
 
             Column(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f)
+                    .padding(start = 40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -78,7 +79,8 @@ fun AllCoinsItem(coin: Coin,
                     fontSize = 12.sp)
             }
 
-            Column(horizontalAlignment = Alignment.End) {
+            Column(modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.End) {
                 Text(
                     text = "$${String.format("%.2f", coin.priceUsd)}",
                     color = Color.White,
