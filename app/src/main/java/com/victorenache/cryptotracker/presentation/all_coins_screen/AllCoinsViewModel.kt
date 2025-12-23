@@ -22,17 +22,43 @@ class AllCoinsViewModel @Inject constructor(
         getCoins()
     }
 
-    private fun getCoins() {
+    fun getCoins() {
         getCoinsUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = AllCoinsState(coins = result.data ?: emptyList())
+                    _state.value =
+                        AllCoinsState(coins = result.data ?: emptyList(), isLoading = false)
                 }
+
                 is Resource.Error -> {
-                    _state.value = AllCoinsState(error = result.message ?: "Unexpected error")
+                    _state.value = AllCoinsState(
+                        error = result.message ?: "Unexpected error",
+                        isLoading = false
+                    )
                 }
                 is Resource.Loading -> {
                     _state.value = AllCoinsState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun refreshCoins() {
+        getCoinsUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value =
+                        _state.value.copy(coins = result.data ?: emptyList(), isRefreshing = false)
+                }
+
+                is Resource.Error -> {
+                    _state.value = _state.value.copy(
+                        error = result.message ?: "Update failed",
+                        isRefreshing = false
+                    )
+                }
+                is Resource.Loading -> {
+                    _state.value = _state.value.copy(isRefreshing = true)
                 }
             }
         }.launchIn(viewModelScope)

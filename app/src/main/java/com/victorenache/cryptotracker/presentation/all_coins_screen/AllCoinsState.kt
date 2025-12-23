@@ -4,6 +4,7 @@ import com.victorenache.cryptotracker.domain.model.Coin
 
 data class AllCoinsState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val coins: List<Coin> = emptyList(),
     val error: String = ""
 )

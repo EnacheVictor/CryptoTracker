@@ -14,13 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.victorenache.cryptotracker.presentation.components.AllCoinsItem
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.victorenache.cryptotracker.ui.theme.BlackScreen
 import com.victorenache.cryptotracker.ui.theme.WhiteDivider
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AllCoinsScreen(
@@ -32,9 +35,12 @@ fun AllCoinsScreen(
             containerColor = BlackScreen,
             contentWindowInsets = WindowInsets(0.dp)
     ) {paddingValues ->
-        Box(
-            modifier = Modifier.fillMaxSize()
-
+        PullToRefreshBox(
+            isRefreshing = state.isRefreshing,
+            onRefresh = {viewModel.refreshCoins() },
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         )
         {
 
